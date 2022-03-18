@@ -1,0 +1,14 @@
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\bin\Debug\KoerselsLog.exe.config
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\bin\Debug\KoerselsLog.exe
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\bin\Debug\KoerselsLog.pdb
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.csproj.AssemblyReference.cache
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.csproj.SuggestedBindingRedirects.cache
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.Form1.resources
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.Properties.Resources.resources
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.csproj.GenerateResource.cache
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.csproj.CoreCompileInputs.cache
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.exe
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.pdb
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\bin\Debug\LogLib.dll
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\bin\Debug\LogLib.pdb
+C:\Users\jonøst\source\repos\KoerselsLog\KoerselsLog\obj\Debug\KoerselsLog.csproj.CopyComplete
