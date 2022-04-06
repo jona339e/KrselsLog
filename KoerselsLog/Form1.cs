@@ -14,8 +14,8 @@ namespace KoerselsLog
 {
     public partial class Form1 : Form
     {
-        public MyTable tab = new MyTable();
-        public List<string> NavnList = new List<string>();
+        public MyTable tab = new MyTable(); // initialisere klassen MyTable
+        public List<string> NavnList = new List<string>(); //opretter en string hvori brugerne bliver gemt.
 
         static string brugerText = "Opret en bruger:\nIndtast et navn og en nummerplade. Klik på OK for at oprette en record og få det vist i nedenstående liste. Ved klik på Cancel resettes felterne.";
         static string redigerText = "Rediger en bruger:\nVælg en bruger fra drop down listen. Rediger nummerplade teksten. Klik på Ok for at gemme den opdaterede record, og få det vist i nedenstående skema. Ved klik på Cancel resettes felterne";
@@ -36,15 +36,18 @@ namespace KoerselsLog
 
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e) //hvad der sker når form1 bliver loadet.
         {
 
-            if (tab.ValidateConnection())
+            if (tab.ValidateConnection()) //validere forbindelse
             {
                 // TODO: This line of code loads data into the 'kLPDataSet.bruger' table. You can move, or remove it, as needed.
+                // udfylder tabel med data fra sql databasen
                 this.brugerTableAdapter.Fill(this.kLPDataSet.bruger);
                 // TODO: This line of code loads data into the 'kLPDataSet2.koersels_log' table. You can move, or remove it, as needed.
                 this.koersels_logTableAdapter1.Fill(this.kLPDataSet2.koersels_log);
+
+                //henter navne fra databasen og sætte dem ind i de 3 comboboxe der er oprettet.
                 NavnList = tab.GetNavn();
                 foreach (string i in NavnList)
                 {
@@ -53,12 +56,12 @@ namespace KoerselsLog
                     navn_pick3.Items.Add(i);
                 }
             }
-            richTextBox.Text = brugerText;
-            richTextBox1.Text = redigerText;
-            richTextBox2.Text = sletText;
-            richTextBox3.Text = registrerText;
-            Dato.Text = DateTime.Now.ToString("d");
-            Dato3.Text = DateTime.Now.ToString("d");
+            richTextBox.Text = brugerText;              // indsætter oprettede strings i win form
+            richTextBox1.Text = redigerText;            
+            richTextBox2.Text = sletText;               
+            richTextBox3.Text = registrerText;          
+            Dato.Text = DateTime.Now.ToString("d");     //indsætter dagens dato ind i text box
+            Dato3.Text = DateTime.Now.ToString("d");    
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
@@ -71,9 +74,9 @@ namespace KoerselsLog
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) //bestemmer hvad der sker når man trykker på knappen cancel (opret bruger)
         {
-            navn_input.Text = "<text>";
+            navn_input.Text = "<text>";     //ændre textbox til at være <text> når der klikkes på cancel knappen
             nr_plade_input.Text = "<text>";
         }
 
@@ -112,39 +115,39 @@ namespace KoerselsLog
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //navn_pick1
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //bestemmer hvad der sker når man ændre på valgt bruger (i rediger bruger)
         {
             if (tab.ValidateConnection())
             {
-                Dato2.Text = tab.GetDato(navn_pick1.Text);
+                Dato2.Text = tab.GetDato(navn_pick1.Text); //henter dato der stemmer overens med datoen tilknyttet en bestem bruger
             }
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e) // hvad der sker når man trykker OK (rediger bruger)
         {
             if (tab.ValidateConnection())
             {
-                if (tab.ValidatePlade(nr_plade_input2.Text))
+                if (tab.ValidatePlade(nr_plade_input2.Text)) // validere om nr_plade lever op til de satte krav
                 {
-                    tab.EditUser(navn_pick1.Text, nr_plade_input2.Text);
+                    tab.EditUser(navn_pick1.Text, nr_plade_input2.Text); //ændre nummerpladen i tabellen bruger, udfra de inputs der er i winform
                 }
                 else
                 {
-                    MessageBox.Show("Input blev ikke indsat I databasen");
+                    MessageBox.Show("Input blev ikke indsat I databasen"); //popup med meddelelse
                 }
-                nr_plade_input2.Text = "<text>";
-                this.brugerTableAdapter.Fill(this.kLPDataSet.bruger);
+                nr_plade_input2.Text = "<text>"; //ændre input til <text>
+                this.brugerTableAdapter.Fill(this.kLPDataSet.bruger); //opdaterer den viste tabel med brugere
             }
         }
 
-        private void button5_Click(object sender, EventArgs e)
+        private void button5_Click(object sender, EventArgs e) //bestemmer hvad der skal ske, når man trykker ok (slet bruger)
         {
             if (tab.ValidateConnection())
             {
-                tab.DeleteBruger(navn_pick2.Text);
-                this.brugerTableAdapter.Fill(this.kLPDataSet.bruger);
+                tab.DeleteBruger(navn_pick2.Text);      //sletter data i tabellen bruger udfra valgt navn
+                this.brugerTableAdapter.Fill(this.kLPDataSet.bruger); //opdaterer den viste tabel med brugere
 
-                navn_pick1.Items.Remove(navn_pick2.Text);
+                navn_pick1.Items.Remove(navn_pick2.Text); // sletter navn fra dropdown
                 navn_pick2.Items.Remove(navn_pick2.Text);
                 //navn_pick3.Items.Remove(navn_pick2.Text); //hvorfor virker den her ikke?
 
@@ -169,24 +172,25 @@ namespace KoerselsLog
 
         }
 
-        private void ok_Click(object sender, EventArgs e)
+        private void ok_Click(object sender, EventArgs e) //bestemmer hvad der sker når der trykkes OK (opret bruger)
         {
             if (tab.ValidateConnection())
             {
-                if (tab.ValidateName(navn_input.Text) && tab.ValidatePlade(nr_plade_input.Text))
+                if (tab.ValidateName(navn_input.Text) && tab.ValidatePlade(nr_plade_input.Text)) //validere 2 inputs
                 {
-                    tab.InsertIntoBruger(navn_input.Text, nr_plade_input.Text);
+                    tab.InsertIntoBruger(navn_input.Text, nr_plade_input.Text); //indsætter data ind i tabellen bruger
+                    navn_pick1.Items.Add(navn_input.Text); //opdatere dropdown liste, med det indtastede navn
+                    navn_pick2.Items.Add(navn_input.Text);
+                    navn_pick3.Items.Add(navn_input.Text);
                 }
                 else
                 {
-                    MessageBox.Show("Input blev ikke indsat I databasen");
+                    MessageBox.Show("Input blev ikke indsat I databasen"); //popup meddelelse
                 }
 
-                navn_pick1.Items.Add(navn_input.Text);
-                navn_pick2.Items.Add(navn_input.Text);
-                navn_pick3.Items.Add(navn_input.Text);
+                
 
-
+                //opdatere diverse elementer
                 navn_input.Text = "<text>";
                 nr_plade_input.Text = "<text>";
                 this.brugerTableAdapter.Fill(this.kLPDataSet.bruger);
@@ -199,11 +203,11 @@ namespace KoerselsLog
 
         }
 
-        private void cancel2_Click(object sender, EventArgs e)
+        private void cancel2_Click(object sender, EventArgs e) //bestemmer hvad der sker når der trykkes cancel (rediger bruger)
         {
-            navn_input.Text = "<text>";
+            navn_input.Text = "<text>";         //ændre input til <text>
             nr_plade_input.Text = "<text>";
-            navn_pick1.SelectedIndex = -1;
+            navn_pick1.SelectedIndex = -1;      //ændre valgt element til at være blankt
         }
 
         private void nr_plade_input2_TextChanged(object sender, EventArgs e)
@@ -211,9 +215,9 @@ namespace KoerselsLog
 
         }
 
-        private void cancel3_Click(object sender, EventArgs e)
+        private void cancel3_Click(object sender, EventArgs e) // bestemmer hvad der sker når man trykker cancel (slet bruger)
         {
-            navn_pick2.SelectedIndex = -1;
+            navn_pick2.SelectedIndex = -1;      //ændre valgt element til at være blankt
         }
 
         private void groupBox4_Enter(object sender, EventArgs e) 
@@ -221,21 +225,21 @@ namespace KoerselsLog
 
         }
 
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) //bestemmer hvad der sker når man ændre valgt bruger (koerselslog)
         {
             if (tab.ValidateConnection())
             {
-                Nr_plade_get.Text = tab.GetPlade(navn_pick3.Text);
+                Nr_plade_get.Text = tab.GetPlade(navn_pick3.Text); //henter nummerplade der svarer til valgte bruger
             }
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void button1_Click_1(object sender, EventArgs e) // bestemmer hvad der sker når man trykker OK (koerselslog)
         {
             if (tab.ValidateConnection())
             {
-                tab.InsertIntoKoerselsLog(navn_pick3.Text, Dato3.Text, Nr_plade_get.Text, opgave_text.Text);
-                this.koersels_logTableAdapter1.Fill(this.kLPDataSet2.koersels_log);
-                opgave_text.Text = "<text>";
+                tab.InsertIntoKoerselsLog(navn_pick3.Text, Dato3.Text, Nr_plade_get.Text, opgave_text.Text); //indsætter data ind i databasen
+                this.koersels_logTableAdapter1.Fill(this.kLPDataSet2.koersels_log); //opdatere viste tabel
+                opgave_text.Text = "<text>"; //ændre input til at være <text>
 
             }
         }
@@ -265,10 +269,10 @@ namespace KoerselsLog
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) //bestemmer hvad der sker når man trykker cancel (orpet koerselslog)
         {
-            navn_pick3.SelectedIndex = -1;
-            opgave_text.Text = "<text>";
+            navn_pick3.SelectedIndex = -1; //ændre valgt element til at være blankt
+            opgave_text.Text = "<text>"; //ændre input til at være <text>
         }
     }
 }
