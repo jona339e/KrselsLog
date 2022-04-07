@@ -17,10 +17,10 @@ namespace KoerselsLog
         public MyTable tab = new MyTable(); // initialisere klassen MyTable
         public List<string> NavnList = new List<string>(); //opretter en string hvori brugerne bliver gemt.
 
-        static string brugerText = "Opret en bruger:\nIndtast et navn og en nummerplade. Klik på OK for at oprette en record og få det vist i nedenstående liste. Ved klik på Cancel resettes felterne.";
-        static string redigerText = "Rediger en bruger:\nVælg en bruger fra drop down listen. Rediger nummerplade teksten. Klik på Ok for at gemme den opdaterede record, og få det vist i nedenstående skema. Ved klik på Cancel resettes felterne";
-        static string sletText = "Slet en bruger:\nVælg en bruger fra drop down listen. Klik Ok for at slette den bruger (record) fra den nedenstående list. Ved klik på Cancel resettes navne feltet.";
-        static string registrerText = "Registrer en kørsel:\nVælg en bruger fra dop down listen. Indtast en kort opgave tekst. Klik på Ok for at gemme den opdaterede record og få det vist i nedenstående skema. Ved klik på Cancel resettes felterne.";
+        const string brugerText = "Opret en bruger:\nIndtast et navn og en nummerplade. Klik på OK for at oprette en record og få det vist i nedenstående liste. Ved klik på Cancel resettes felterne.";
+        const string redigerText = "Rediger en bruger:\nVælg en bruger fra drop down listen. Rediger nummerplade teksten. Klik på Ok for at gemme den opdaterede record, og få det vist i nedenstående skema. Ved klik på Cancel resettes felterne";
+        const string sletText = "Slet en bruger:\nVælg en bruger fra drop down listen. Klik Ok for at slette den bruger (record) fra den nedenstående list. Ved klik på Cancel resettes navne feltet.";
+        const string registrerText = "Registrer en kørsel:\nVælg en bruger fra dop down listen. Indtast en kort opgave tekst. Klik på Ok for at gemme den opdaterede record og få det vist i nedenstående skema. Ved klik på Cancel resettes felterne.";
         public Form1()
         {
             InitializeComponent();
@@ -47,7 +47,7 @@ namespace KoerselsLog
                 // TODO: This line of code loads data into the 'kLPDataSet2.koersels_log' table. You can move, or remove it, as needed.
                 this.koersels_logTableAdapter1.Fill(this.kLPDataSet2.koersels_log);
 
-                //henter navne fra databasen og sætte dem ind i de 3 comboboxe der er oprettet.
+                //henter navne fra databasen og sætter dem ind i de 3 comboboxe der er oprettet.
                 NavnList = tab.GetNavn();
                 foreach (string i in NavnList)
                 {
@@ -74,7 +74,8 @@ namespace KoerselsLog
 
         }
 
-        private void button1_Click(object sender, EventArgs e) //bestemmer hvad der sker når man trykker på knappen cancel (opret bruger)
+        private void button1_Click(object sender, EventArgs e) //bestemmer hvad der sker
+                                                               //når man trykker på knappen cancel (opret bruger)
         {
             navn_input.Text = "<text>";     //ændre textbox til at være <text> når der klikkes på cancel knappen
             nr_plade_input.Text = "<text>";
@@ -115,11 +116,13 @@ namespace KoerselsLog
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //bestemmer hvad der sker når man ændre på valgt bruger (i rediger bruger)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) //bestemmer hvad der sker
+                                                                                //når man ændre på valgt bruger (i rediger bruger)
         {
             if (tab.ValidateConnection())
             {
-                Dato2.Text = tab.GetDato(navn_pick1.Text); //henter dato der stemmer overens med datoen tilknyttet en bestem bruger
+                Dato2.Text = tab.GetDato(navn_pick1.Text); //henter dato der stemmer overens med datoen
+                                                           //tilknyttet en bestem bruger
             }
         }
 
@@ -127,9 +130,14 @@ namespace KoerselsLog
         {
             if (tab.ValidateConnection())
             {
-                if (tab.ValidatePlade(nr_plade_input2.Text)) // validere om nr_plade lever op til de satte krav
+                if (!string.IsNullOrEmpty("" + navn_pick1.SelectedValue))
                 {
-                    tab.EditUser(navn_pick1.Text, nr_plade_input2.Text); //ændre nummerpladen i tabellen bruger, udfra de inputs der er i winform
+                    MessageBox.Show("Input blev ikke indsat I databasen\nIntet navn valgt.");
+                }
+                else if (tab.ValidatePlade(nr_plade_input2.Text)) // validere om nr_plade lever op til de satte krav
+                {
+                    tab.EditUser(navn_pick1.Text, nr_plade_input2.Text); //ændre nummerpladen i tabellen bruger
+                                                                         //udfra de inputs der er i winform
                 }
                 else
                 {
@@ -139,10 +147,14 @@ namespace KoerselsLog
                 this.brugerTableAdapter.Fill(this.kLPDataSet.bruger); //opdaterer den viste tabel med brugere
             }
         }
-
+        // kom her til i rapport skrivning
         private void button5_Click(object sender, EventArgs e) //bestemmer hvad der skal ske, når man trykker ok (slet bruger)
         {
-            if (tab.ValidateConnection())
+            if (!string.IsNullOrEmpty("" + navn_pick2.SelectedValue))
+            {
+                MessageBox.Show("Input blev ikke indsat I databasen\nIntet navn valgt.");
+            }
+            else if (tab.ValidateConnection())
             {
                 tab.DeleteBruger(navn_pick2.Text);      //sletter data i tabellen bruger udfra valgt navn
                 this.brugerTableAdapter.Fill(this.kLPDataSet.bruger); //opdaterer den viste tabel med brugere

@@ -3,3 +3,4 @@ C:\Users\jonøst\source\repos\KoerselsLog\LogLib\bin\Debug\LogLib.pdb
 C:\Users\jonøst\source\repos\KoerselsLog\LogLib\obj\Debug\LogLib.csproj.CoreCompileInputs.cache
 C:\Users\jonøst\source\repos\KoerselsLog\LogLib\obj\Debug\LogLib.dll
 C:\Users\jonøst\source\repos\KoerselsLog\LogLib\obj\Debug\LogLib.pdb
+C:\Users\jonøst\source\repos\KoerselsLog\LogLib\obj\Debug\LogLib.csproj.AssemblyReference.cache

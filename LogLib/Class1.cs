@@ -134,7 +134,8 @@ namespace LogLib
                 sqlconn.Close(); //lukker forbindelse til sql serveren
                 return true;
             }
-            catch (SqlException) //hvis der ikke er forbindelse til sereveren og man derved får en sql exception, vil følgende blive kørt
+            catch (SqlException) //hvis der ikke er forbindelse til sereveren og man derved får en sql exception,
+                                 //vil følgende blive kørt
             {
                 MessageBox.Show("Connection Error"); //popup med meddelelse
                 return false;
@@ -146,15 +147,18 @@ namespace LogLib
         {
             if (!string.IsNullOrEmpty(name))
             {
-                sql = "select dato from bruger where navn ='" + name + "'"; //da der ikke kan være duplicate navne, vil der kune være en data entry og derfor kun et element der kan hentes
+                sql = "select dato from bruger where navn ='" + name + "'"; //da der ikke kan være duplicate navne,
+                                                                            //vil der kune være en data entry og
+                                                                            //derfor kun et element der kan hentes
                 sqlconn.Open();
                 {
                     cmnd = new SqlCommand(sql, sqlconn); //query og connection
                     DR = cmnd.ExecuteReader(); //eksekverer datareader, der læser data udfra ens query
                     while (DR.Read())//sørgere for at gå igennem alt dataen.
                     {
-                        holdme = "" + DR.GetValue(0); // er det her en acceptabel måde at gøre det på eller skal man bruge .tostring?
-                        //sætter en string lig med den værdi vi har queriet.
+                        holdme = "" + DR.GetValue(0); // er det her en acceptabel måde at gøre det på
+                                                      // eller skal man bruge .tostring?
+                        //sætter en string lig med den værdi der er queriet.
                     }
                 }
                 DR.Close();     //lukker datareader
@@ -256,7 +260,7 @@ namespace LogLib
                 MessageBox.Show("Input Fejl:\nDe to første tegn I nummerpladen skal være tal");
                 return false;
             }
-            else if (PladeNumbers(plade))
+            else if (!PladeNumbers(plade))
             {
                 MessageBox.Show("Input Fejl:\nPlade skal indeholde fem tal efter bogstaverne");
                 return false;
@@ -290,7 +294,7 @@ namespace LogLib
 
         private bool PladeNumbers(string plade) //metode der tjekker om input indeholder bogstaver hvor der skal være tal.
         {
-            for (int i = 1; i < plade.Length-1; i++)
+            for (int i = 2; i < plade.Length; i++)
             {
                 if (Char.IsLetter(plade[i]))
                 {
