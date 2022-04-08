@@ -236,7 +236,8 @@ namespace LogLib
             return true;
         }
 
-        private bool NavnLength(string name) //tjekker om input er mindre end 3 tegn langt, hvis det er returneres false, hvis ikke returneres true
+        private bool NavnLength(string name) //tjekker om input er mindre end 3 tegn langt,
+                                             //hvis det er returneres false, hvis ikke returneres true
         {
             if (name.Length < 3)
             {

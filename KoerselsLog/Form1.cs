@@ -160,16 +160,9 @@ namespace KoerselsLog
                 this.brugerTableAdapter.Fill(this.kLPDataSet.bruger); //opdaterer den viste tabel med brugere
 
                 navn_pick1.Items.Remove(navn_pick2.Text); // sletter navn fra dropdown
+                navn_pick3.Items.Remove(navn_pick2.Text); 
                 navn_pick2.Items.Remove(navn_pick2.Text);
-                //navn_pick3.Items.Remove(navn_pick2.Text); //hvorfor virker den her ikke?
-
-                NavnList.Remove(navn_pick2.Text); //det her virker
-                navn_pick3.Items.Clear();
-                foreach (string i in NavnList)
-                {
-                    navn_pick3.Items.Add(i);
-                }
-
+                
             }
 
         }
@@ -237,7 +230,8 @@ namespace KoerselsLog
 
         }
 
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) //bestemmer hvad der sker når man ændre valgt bruger (koerselslog)
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e) //bestemmer hvad der sker
+                                                                                  //når man ændre valgt bruger (koerselslog)
         {
             if (tab.ValidateConnection())
             {
@@ -249,10 +243,13 @@ namespace KoerselsLog
         {
             if (tab.ValidateConnection())
             {
-                tab.InsertIntoKoerselsLog(navn_pick3.Text, Dato3.Text, Nr_plade_get.Text, opgave_text.Text); //indsætter data ind i databasen
-                this.koersels_logTableAdapter1.Fill(this.kLPDataSet2.koersels_log); //opdatere viste tabel
-                opgave_text.Text = "<text>"; //ændre input til at være <text>
-
+                if (!string.IsNullOrEmpty(navn_pick3.Text) && !string.IsNullOrEmpty(opgave_text.Text))
+                {
+                    tab.InsertIntoKoerselsLog(navn_pick3.Text, Dato3.Text, Nr_plade_get.Text, opgave_text.Text);
+                    //indsætter data ind i databasen
+                    this.koersels_logTableAdapter1.Fill(this.kLPDataSet2.koersels_log); //opdatere viste tabel
+                    opgave_text.Text = "<text>"; //ændre input til at være <text>
+                }
             }
         }
 
